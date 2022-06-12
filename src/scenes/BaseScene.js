@@ -13,6 +13,8 @@ class BaseScene extends Phaser.Scene {
             fill : '#FFF',
         };
         this.reelVelocity = 200;
+        this.stopOffset = 175;
+        this.stopPosition = 450;
         this.fruitPositions = [
             {
                 name: 'apple',
@@ -117,7 +119,6 @@ class BaseScene extends Phaser.Scene {
     }
 
     getRandomFruit() {
-        console.log('Random la la');
         return this.fruitPositions2[Math.floor(Math.random()*this.fruitPositions2.length)].name;
     }
 

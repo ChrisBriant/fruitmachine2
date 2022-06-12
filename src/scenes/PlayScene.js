@@ -71,6 +71,7 @@ class PlayScene extends BaseScene {
 
         //this.bird.play('fly');
         this.createReels();
+        this.createFrames();
         this.createPointer();
     }
 
@@ -100,8 +101,16 @@ class PlayScene extends BaseScene {
 
     }
 
+    //The housing around the reels
+    createFrames() {
+        this.add.image(80,250,'frame').setOrigin(0,0);
+        this.add.image(300,250,'frame').setOrigin(0,0);
+        this.add.image(520,250,'frame').setOrigin(0,0);
+    }
+
     createPointer() {
-        this.add.image(75,325,'pointer');
+        this.add.image(75,this.screenCenter[1],'pointer');
+        this.add.image(75,this.stopPosition,'pointer');
     }
 
 
@@ -222,7 +231,7 @@ class PlayScene extends BaseScene {
         //console.log(Math.floor(this.screenCenter[0] - reelA.y + 70) > 0 && (Math.floor(this.screenCenter[0] - reelA.y - 70)) < 140);
         //console.log(Math.floor((this.screenCenter[0] - reelA.y + 70) / 140));
         reelGroup.children.entries.forEach(reel => {
-            let fruitPos = this.screenCenter[0] - reel.y + 35
+            let fruitPos = this.stopPosition - reel.y + this.stopOffset;
             let fruitIndex = Math.floor((fruitPos) / 140);
             //If it is on the named fruit already then it needs to cycle once again before stopping.
             let onNamedFruit = ((fruitIndex * 140) + 120) > fruitPos;

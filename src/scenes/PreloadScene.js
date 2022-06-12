@@ -9,6 +9,7 @@ class PreloadScene extends Phaser.Scene {
     preload() {
         this.load.image('reel','../assets/slot_reel_vert.png');
         this.load.image('pointer','../assets/bird.png');
+        this.load.image('frame','../assets/frame.png');
         // this.load.image('sky', '../assets/sky.png');
         // this.load.image('sky', '../assets/sky.png');
         // this.load.spritesheet('bird', '../assets/birdSprite.png', {
