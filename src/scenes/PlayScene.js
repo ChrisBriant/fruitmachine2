@@ -69,7 +69,8 @@ class PlayScene extends BaseScene {
         this.createPointer();
     }
 
-    createReel() {
+    createReels() {
+        //Create three reels
         this.reel = this.physics.add.group();
         this.reel.create(105, -1120, 'reel').setOrigin(0,0);
         this.reel.create(105, 0, 'reel').setOrigin(0,0);
@@ -161,6 +162,10 @@ class PlayScene extends BaseScene {
         this.stopAt();
     }
 
+    recycleReels() {
+
+    }
+
     recycleReel() {
         //console.log(this.reel.children.entries[0]);
         let reelA = this.reel.children.entries[0];
@@ -177,22 +182,24 @@ class PlayScene extends BaseScene {
         //console.log(this.reel.getBounds().top > this.config.height);
     }
 
-    // getFruitPos() {
-    //     let reelA = this.reel.children.entries[0];
-    //     //console.log(Math.floor(this.screenCenter[0] - reelA.y + 70) > 0 && (Math.floor(this.screenCenter[0] - reelA.y - 70)) < 140);
-    //     console.log(Math.floor((this.screenCenter[0] - reelA.y + 70) / 140));
-    //     let fruitPos = Math.floor((this.screenCenter[0] - reelA.y + 70) / 140);
-    //     console.log(this.getFruit(fruitPos));
-        
-    // }
+    getCurrentFruit() {
+        // this.reel.children.entries.forEach(reel => {
+        //     let fruitPos = Math.floor((this.screenCenter[0] - reelA.y + 70) / 140);
+        //     this.getFruit(fruitPos)
+        // });
+    }
 
     stopAt() {
         //let reelA = this.reel.children.entries[0];
         //console.log(Math.floor(this.screenCenter[0] - reelA.y + 70) > 0 && (Math.floor(this.screenCenter[0] - reelA.y - 70)) < 140);
         //console.log(Math.floor((this.screenCenter[0] - reelA.y + 70) / 140));
         this.reel.children.entries.forEach(reel => {
-            let fruitPos = Math.floor((this.screenCenter[0] - reel.y + 35) / 140);
-            if(this.getFruit(fruitPos) === this.stopAtFruit) {
+            let fruitPos = this.screenCenter[0] - reel.y + 35
+            let fruitIndex = Math.floor((fruitPos) / 140);
+            //If it is on the named fruit already then it needs to cycle once again before stopping.
+            let onNamedFruit = ((fruitIndex * 140) + 120) > fruitPos;
+            //console.log('lemon', this.screenCenter[0] - reel.y + 35, ((fruitIndex * 140) + 120) > fruitPos);
+            if(this.getFruit(fruitIndex) === this.stopAtFruit && !onNamedFruit) {
                 this.reel.setVelocityY(0);
             }
         });
