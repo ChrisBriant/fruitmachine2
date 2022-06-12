@@ -65,16 +65,24 @@ class PlayScene extends BaseScene {
         // });
 
         //this.bird.play('fly');
-        this.createReel();
+        this.createReels();
         this.createPointer();
     }
 
     createReels() {
         //Create three reels
-        this.reel = this.physics.add.group();
-        this.reel.create(105, -1120, 'reel').setOrigin(0,0);
-        this.reel.create(105, 0, 'reel').setOrigin(0,0);
-        this.reel.setVelocityY(200);
+        this.reel1 = this.physics.add.group();
+        this.reel1.create(105, -1120, 'reel').setOrigin(0,0);
+        this.reel1.create(105, 0, 'reel').setOrigin(0,0);
+        this.reel1.setVelocityY(this.reelVelocity);
+        this.reel2 = this.physics.add.group();
+        this.reel2.create(325, -1120, 'reel').setOrigin(0,0);
+        this.reel2.create(325, 0, 'reel').setOrigin(0,0);
+        this.reel2.setVelocityY(this.reelVelocity);
+        this.reel3 = this.physics.add.group();
+        this.reel3.create(545, -1120, 'reel').setOrigin(0,0);
+        this.reel3.create(545, 0, 'reel').setOrigin(0,0);
+        this.reel3.setVelocityY(this.reelVelocity);
 
     }
 
@@ -157,19 +165,21 @@ class PlayScene extends BaseScene {
     update() {
         // this.checkGameStatus();
         // this.recyclePipes();
-        this.recycleReel();
+        this.recycleReels();
         //this.getFruitPos();
-        this.stopAt();
+        this.stopAt(this.reel1);
     }
 
     recycleReels() {
-
+        this.recycleReel(this.reel1.children.entries[0],this.reel1.children.entries[1]);
+        this.recycleReel(this.reel2.children.entries[0],this.reel2.children.entries[1]);
+        this.recycleReel(this.reel3.children.entries[0],this.reel3.children.entries[1]);
     }
 
-    recycleReel() {
+    recycleReel(reelA,reelB) {
         //console.log(this.reel.children.entries[0]);
-        let reelA = this.reel.children.entries[0];
-        let reelB = this.reel.children.entries[1];
+        // let reelA = this.reel.children.entries[0];
+        // let reelB = this.reel.children.entries[1];
         if(reelA.getBounds().y > this.config.height) {
             reelA.y = reelB.getBounds().y - 1120;
         }
@@ -189,18 +199,18 @@ class PlayScene extends BaseScene {
         // });
     }
 
-    stopAt() {
+    stopAt(reelGroup) {
         //let reelA = this.reel.children.entries[0];
         //console.log(Math.floor(this.screenCenter[0] - reelA.y + 70) > 0 && (Math.floor(this.screenCenter[0] - reelA.y - 70)) < 140);
         //console.log(Math.floor((this.screenCenter[0] - reelA.y + 70) / 140));
-        this.reel.children.entries.forEach(reel => {
+        reelGroup.children.entries.forEach(reel => {
             let fruitPos = this.screenCenter[0] - reel.y + 35
             let fruitIndex = Math.floor((fruitPos) / 140);
             //If it is on the named fruit already then it needs to cycle once again before stopping.
             let onNamedFruit = ((fruitIndex * 140) + 120) > fruitPos;
             //console.log('lemon', this.screenCenter[0] - reel.y + 35, ((fruitIndex * 140) + 120) > fruitPos);
             if(this.getFruit(fruitIndex) === this.stopAtFruit && !onNamedFruit) {
-                this.reel.setVelocityY(0);
+                reelGroup.setVelocityY(0);
             }
         });
 
