@@ -6,6 +6,11 @@ class PlayScene extends BaseScene {
     constructor(config) {
         super('PlayScene', config);
         this.stopAtFruit = '';
+        this.stopFruits = {
+            'reel1' : '',
+            'reel2' : '',
+            'reel3' : '',
+        }
         // this.bird = null;
         // this.pipes = null;
         // this.isPaused = false;
@@ -69,19 +74,28 @@ class PlayScene extends BaseScene {
         this.createPointer();
     }
 
+    //Gets a random position along the y access and the offset for the second reel
+    getRandomYs() {
+        let randomY = Math.floor(Math.random()*this.config.height+1);
+        return [randomY, randomY -1120]; 
+    }
+
     createReels() {
         //Create three reels
+        let reel1Ys = this.getRandomYs();
+        let reel2Ys = this.getRandomYs();
+        let reel3Ys = this.getRandomYs();
         this.reel1 = this.physics.add.group();
-        this.reel1.create(105, -1120, 'reel').setOrigin(0,0);
-        this.reel1.create(105, 0, 'reel').setOrigin(0,0);
+        this.reel1.create(105, reel1Ys[0], 'reel').setOrigin(0,0);
+        this.reel1.create(105, reel1Ys[1], 'reel').setOrigin(0,0);
         this.reel1.setVelocityY(this.reelVelocity);
         this.reel2 = this.physics.add.group();
-        this.reel2.create(325, -1120, 'reel').setOrigin(0,0);
-        this.reel2.create(325, 0, 'reel').setOrigin(0,0);
+        this.reel2.create(325, reel2Ys[0], 'reel').setOrigin(0,0);
+        this.reel2.create(325, reel2Ys[1], 'reel').setOrigin(0,0);
         this.reel2.setVelocityY(this.reelVelocity);
         this.reel3 = this.physics.add.group();
-        this.reel3.create(545, -1120, 'reel').setOrigin(0,0);
-        this.reel3.create(545, 0, 'reel').setOrigin(0,0);
+        this.reel3.create(545, reel3Ys[0], 'reel').setOrigin(0,0);
+        this.reel3.create(545, reel3Ys[1], 'reel').setOrigin(0,0);
         this.reel3.setVelocityY(this.reelVelocity);
 
     }
@@ -156,9 +170,11 @@ class PlayScene extends BaseScene {
         //Input actions
         // this.input.on('pointerdown',this.flap, this);
         this.input.keyboard.on('keydown_SPACE',() => {
-            let stopAt = this.getRandomFruit();
-            console.log('Stopping at ',stopAt);
-            this.stopAtFruit = stopAt;
+            //let stopAt = this.getRandomFruit();
+            this.stopFruits['reel1'] = this.getRandomFruit();
+            this.stopFruits['reel2'] = this.getRandomFruit();
+            this.stopFruits['reel3'] = this.getRandomFruit();
+            console.log('Stopping at ',this.stopFruits);
         });
     }
 
@@ -167,7 +183,9 @@ class PlayScene extends BaseScene {
         // this.recyclePipes();
         this.recycleReels();
         //this.getFruitPos();
-        this.stopAt(this.reel1);
+        this.stopAt(this.reel1,'reel1');
+        this.stopAt(this.reel2,'reel2');
+        this.stopAt(this.reel3,'reel3');
     }
 
     recycleReels() {
@@ -199,7 +217,7 @@ class PlayScene extends BaseScene {
         // });
     }
 
-    stopAt(reelGroup) {
+    stopAt(reelGroup, reelNumber) {
         //let reelA = this.reel.children.entries[0];
         //console.log(Math.floor(this.screenCenter[0] - reelA.y + 70) > 0 && (Math.floor(this.screenCenter[0] - reelA.y - 70)) < 140);
         //console.log(Math.floor((this.screenCenter[0] - reelA.y + 70) / 140));
@@ -209,7 +227,7 @@ class PlayScene extends BaseScene {
             //If it is on the named fruit already then it needs to cycle once again before stopping.
             let onNamedFruit = ((fruitIndex * 140) + 120) > fruitPos;
             //console.log('lemon', this.screenCenter[0] - reel.y + 35, ((fruitIndex * 140) + 120) > fruitPos);
-            if(this.getFruit(fruitIndex) === this.stopAtFruit && !onNamedFruit) {
+            if(this.getFruit(fruitIndex) === this.stopFruits[reelNumber] && !onNamedFruit) {
                 reelGroup.setVelocityY(0);
             }
         });
