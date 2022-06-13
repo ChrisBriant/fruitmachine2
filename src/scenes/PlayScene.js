@@ -286,6 +286,13 @@ class PlayScene extends BaseScene {
         }
     }
 
+    resetReel(reelGroup, reelNumber) {
+        reelGroup.setVelocityY(0);
+        //Reset the reel
+        this.stopFruits[reelNumber] = '';
+        //If on final reel reset the stopped status
+        this.checkAllStoppedAndResetStoppedStatus();
+    }    
     stopAt(reelGroup, reelNumber) {
         reelGroup.children.entries.forEach(reel => {
             let fruitPos = this.stopPosition - reel.y + this.stopOffset;
@@ -294,12 +301,7 @@ class PlayScene extends BaseScene {
             let onNamedFruit = ((fruitIndex * 140) + 120) > fruitPos;
             //console.log('lemon', this.screenCenter[0] - reel.y + 35, ((fruitIndex * 140) + 120) > fruitPos);
             if(this.getFruit(fruitIndex) === this.stopFruits[reelNumber] && !onNamedFruit) {
-                reelGroup.setVelocityY(0);
-                //Reset the reel
-                this.stopFruits[reelNumber] = '';
-                //If on final reel reset the stopped status
-                this.checkAllStoppedAndResetStoppedStatus();
-                
+                this.resetReel(reelGroup,reelNumber);
             }
         });
 
