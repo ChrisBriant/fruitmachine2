@@ -8,12 +8,10 @@ import PauseScene from "./scenes/PauseScene";
 
 const WIDTH = 950;
 const HEIGHT = 650;
-//const BIRD_POSITION = { x: WIDTH / 10, y: HEIGHT /2};
 
 const SHARED_CONFIG = {
   width : WIDTH,
   height : HEIGHT,
-  //startPosition : BIRD_POSITION,
 }
 
 const scenes = [PreloadScene,PlayScene];

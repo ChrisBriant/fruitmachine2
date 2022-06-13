@@ -14,7 +14,7 @@ class BaseScene extends Phaser.Scene {
         };
         this.reelVelocity = 0;
         this.stopOffset = 175;
-        this.stopPosition = 450;
+        this.stopPosition = 400;
         this.fruitPositions = [
             {
                 name: 'apple',

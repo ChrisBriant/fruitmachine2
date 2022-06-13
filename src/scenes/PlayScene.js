@@ -89,7 +89,7 @@ class PlayScene extends BaseScene {
 
         //this.bird.play('fly');
         this.createReels();
-        this.createFrames();
+        this.createStaticGraphics();
         this.createStartStop();
         this.createPointer();
     }
@@ -121,10 +121,14 @@ class PlayScene extends BaseScene {
     }
 
     //The housing around the reels
-    createFrames() {
-        this.add.image(80,250,'frame').setOrigin(0,0);
-        this.add.image(300,250,'frame').setOrigin(0,0);
-        this.add.image(520,250,'frame').setOrigin(0,0);
+    createStaticGraphics() {
+        this.add.image(0,0,'panel').setOrigin(0,0);
+        this.add.image(20,140,'decoration1').setOrigin(0,0);
+        this.add.image(80,200,'frame').setOrigin(0,0);
+        this.add.image(300,200,'frame').setOrigin(0,0);
+        this.add.image(520,200,'frame').setOrigin(0,0);
+        this.add.image(100,430,'shading').setOrigin(0,0);
+        this.add.image(100,220,'shading').setOrigin(0,0).setFlipY(true);
     }
 
     createStartStop() {
