@@ -127,8 +127,28 @@ class PlayScene extends BaseScene {
         this.add.image(80,200,'frame').setOrigin(0,0);
         this.add.image(300,200,'frame').setOrigin(0,0);
         this.add.image(520,200,'frame').setOrigin(0,0);
-        this.add.image(100,430,'shading').setOrigin(0,0);
+        this.add.image(100,465,'shading').setOrigin(0,0);
         this.add.image(100,220,'shading').setOrigin(0,0).setFlipY(true);
+        this.add.image(320,465,'shading').setOrigin(0,0);
+        this.add.image(320,220,'shading').setOrigin(0,0).setFlipY(true);
+        this.add.image(540,465,'shading').setOrigin(0,0);
+        this.add.image(540,220,'shading').setOrigin(0,0).setFlipY(true);
+        //Credit display
+        this.add.rectangle(780, 20, 160, 120, 0x000).setOrigin(0,0);
+        // this.creditText = this.add.text(16,34, `Best Score: ${bestScore || 0}`, { 
+        //     FontFace: ''
+        //     fontsize: '32px',
+        //     color : '#000',
+        // });
+
+        this.add.text(785, 25, 'Credit', {
+			fontFamily: '"VT323"',
+			fontSize: '30px'
+		});
+        this.creditText = this.add.text(785, 68, '£00.00', {
+			fontFamily: '"VT323"',
+			fontSize: '60px'
+		});
     }
 
     createStartStop() {
