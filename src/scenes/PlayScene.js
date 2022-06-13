@@ -12,6 +12,7 @@ class PlayScene extends BaseScene {
             'reel3' : '',
         },
         this.stopped = true;
+        this.stopPressed = false;
         // this.bird = null;
         // this.pipes = null;
         // this.isPaused = false;
@@ -77,6 +78,14 @@ class PlayScene extends BaseScene {
             repeat: -1, //Repeat infinately
         });
 
+        //Stop button with solid light
+        this.anims.create({
+            key: 'stop_single',
+            frames: this.anims.generateFrameNumbers('startstop',{start:5, end: 5}),
+            frameRate: 8, // 24fps default
+            repeat: -1, //Repeat infinately
+        });
+
 
         //this.bird.play('fly');
         this.createReels();
@@ -130,7 +139,12 @@ class PlayScene extends BaseScene {
                 this.startReels(200);
                 this.stopped = false;
             } else {
-                this.stopReels();
+                if(!this.stopPressed) {
+                    this.startStopButton.play('stop_single');
+                    this.stopPressed = true;
+                    this.stopReels();
+                }
+                
                 //this.stopped = true;
             }
             
@@ -268,6 +282,7 @@ class PlayScene extends BaseScene {
             console.log('ALL HAVE STOPPED');
             this.startStopButton.play('start');
             this.stopped = true;
+            this.stopPressed = false;
         }
     }
 
