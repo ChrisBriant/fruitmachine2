@@ -18,99 +18,41 @@ class BaseScene extends Phaser.Scene {
         this.fruitPositions = [
             {
                 name: 'apple',
-                pos: 0,
+                pos: 1,
             },
             {
                 name: 'banana',
-                pos: 140,
+                pos: 2,
             },
             {
                 name: 'grapes',
-                pos: 280,
+                pos: 3,
             },
             {
                 name: 'melon',
-                pos: 420,
+                pos: 4,
             },
             {
                 name: 'lemon',
-                pos: 560,
+                pos: 5,
             },
             {
                 name: 'orange',
-                pos: 700,
+                pos: 6,
             },
             {
                 name: 'cherry',
-                pos: 840,
+                pos: 7,
             },
             {
                 name: 'bar',
-                pos: 980,
-            },
-    ];
-    this.fruitPositions2 = [
-        {
-            name: 'apple',
-            pos: 1,
-        },
-        {
-            name: 'banana',
-            pos: 2,
-        },
-        {
-            name: 'grapes',
-            pos: 3,
-        },
-        {
-            name: 'melon',
-            pos: 4,
-        },
-        {
-            name: 'lemon',
-            pos: 5,
-        },
-        {
-            name: 'orange',
-            pos: 6,
-        },
-        {
-            name: 'cherry',
-            pos: 7,
-        },
-        {
-            name: 'bar',
-            pos: 8,
-        }
-    ];
-
-        // if(this.config.canGoBack) {
-        //     const backButton = this.add.image(this.config.width - 10, this.config.height - 10, 'back')
-        //     .setScale(3)
-        //     .setInteractive()
-        //     .setOrigin(1);
-
-        //     backButton.on('pointerup', () => {
-        //         this.scene.start('MenuScene');
-        //     });
-        // }
-    }
-
-    createMenu(menu, setupMenuEvents) {
-        // let lastMenuPositionY = 0;
-
-
-        // menu.forEach(menuItem => {
-        //     const menuPosition = [this.screenCenter[0], this.screenCenter[1] + lastMenuPositionY];
-        //     menuItem.textGO =this.add.text(...menuPosition, menuItem.text, this.fontOptions).setOrigin(0.5,1);
-        //     lastMenuPositionY += this.lineHeight;
-        //     setupMenuEvents(menuItem);
-
-        // });
+                pos: 8,
+            }
+        ];
     }
 
     getFruit(pos) {
-        let fruitFilter = this.fruitPositions2.filter( e => pos === e.pos);
+        let fruitFilter = this.fruitPositions.filter( e => pos === e.pos);
         if(fruitFilter.length === 0) {
             return null;
         } else {
@@ -119,17 +61,8 @@ class BaseScene extends Phaser.Scene {
     }
 
     getRandomFruit() {
-        return this.fruitPositions2[Math.floor(Math.random()*this.fruitPositions2.length)].name;
+        return this.fruitPositions[Math.floor(Math.random()*this.fruitPositions.length)].name;
     }
-
-    // getBestScore() {
-    //     const bestScore = localStorage.getItem('bestScore');
-    //     if (bestScore) {
-    //         return parseInt(bestScore);
-    //     } else {
-    //         return 0;
-    //     }
-    // }
 
 }
 
