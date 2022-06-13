@@ -100,25 +100,28 @@ class PlayScene extends BaseScene {
 		});
     }
 
+    handleSpinAction() {
+        if(this.stopped) {
+            this.startStopButton.play('stop');
+            //Start the reels
+            this.startReels(200);
+            this.stopped = false;
+        } else {
+            if(!this.stopPressed) {
+                this.startStopButton.play('stop_single');
+                this.stopPressed = true;
+                this.stopReels();
+            }
+        }
+    }
+
     createStartStop() {
         this.startStopButton = this.add.sprite(800,530,'startstop').setOrigin(0,0).play('start');
 
         this.startStopButton.setInteractive();
 
         this.startStopButton.on('pointerdown', () => {
-            if(this.stopped) {
-                this.startStopButton.play('stop');
-                //Start the reels
-                this.startReels(200);
-                this.stopped = false;
-            } else {
-                if(!this.stopPressed) {
-                    this.startStopButton.play('stop_single');
-                    this.stopPressed = true;
-                    this.stopReels();
-                }
-            }
-            
+            this.handleSpinAction();    
         });
     }
 
@@ -143,18 +146,7 @@ class PlayScene extends BaseScene {
     handleInputs() {
         //Input actions
         this.input.keyboard.on('keydown_SPACE',() => {
-            if(this.stopped) {
-                this.startStopButton.play('stop');
-                //Start the reels
-                this.startReels(200);
-                this.stopped = false;
-            } else {
-                if(!this.stopPressed) {
-                    this.startStopButton.play('stop_single');
-                    this.stopPressed = true;
-                    this.stopReels();
-                }
-            }
+            this.handleSpinAction();  
         });
     }
 
