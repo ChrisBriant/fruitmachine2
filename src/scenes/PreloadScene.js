@@ -10,12 +10,10 @@ class PreloadScene extends Phaser.Scene {
         this.load.image('reel','../assets/slot_reel_vert.png');
         this.load.image('pointer','../assets/bird.png');
         this.load.image('frame','../assets/frame.png');
-        // this.load.image('sky', '../assets/sky.png');
-        // this.load.image('sky', '../assets/sky.png');
-        // this.load.spritesheet('bird', '../assets/birdSprite.png', {
-        //     frameWidth: 16,
-        //     frameHeight: 16,
-        // });
+        this.load.spritesheet('startstop', '../assets/start_stop.png', {
+            frameWidth: 120,
+            frameHeight: 81,
+        });
         // this.load.image('pipe', '../assets/pipe.png');
         // this.load.image('pause', '../assets/pause.png');
         // this.load.image('back', '../assets/back.png');

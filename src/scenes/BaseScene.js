@@ -12,7 +12,7 @@ class BaseScene extends Phaser.Scene {
             fontSize: `${this.fontSize}px`,
             fill : '#FFF',
         };
-        this.reelVelocity = 200;
+        this.reelVelocity = 0;
         this.stopOffset = 175;
         this.stopPosition = 450;
         this.fruitPositions = [

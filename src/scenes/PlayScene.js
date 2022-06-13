@@ -5,12 +5,13 @@ const PIPES_TO_RENDER = 4;
 class PlayScene extends BaseScene {
     constructor(config) {
         super('PlayScene', config);
-        this.stopAtFruit = '';
+        //this.stopAtFruit = '';
         this.stopFruits = {
             'reel1' : '',
             'reel2' : '',
             'reel3' : '',
-        }
+        },
+        this.stopped = true;
         // this.bird = null;
         // this.pipes = null;
         // this.isPaused = false;
@@ -62,16 +63,25 @@ class PlayScene extends BaseScene {
         this.handleInputs();
         // this.listenToEvents();
 
-        // this.anims.create({
-        //     key: 'fly',
-        //     frames: this.anims.generateFrameNumbers('bird',{start:9, end: 15}),
-        //     frameRate: 8, // 24fps default
-        //     repeat: -1, //Repeat infinately
-        // });
+        this.anims.create({
+            key: 'start',
+            frames: this.anims.generateFrameNumbers('startstop',{start:0, end: 2}),
+            frameRate: 4, // 24fps default
+            repeat: -1, //Repeat infinately
+        });
+
+        this.anims.create({
+            key: 'stop',
+            frames: this.anims.generateFrameNumbers('startstop',{start:3, end: 5}),
+            frameRate: 8, // 24fps default
+            repeat: -1, //Repeat infinately
+        });
+
 
         //this.bird.play('fly');
         this.createReels();
         this.createFrames();
+        this.createStartStop();
         this.createPointer();
     }
 
@@ -108,9 +118,50 @@ class PlayScene extends BaseScene {
         this.add.image(520,250,'frame').setOrigin(0,0);
     }
 
+    createStartStop() {
+        this.startStopButton = this.add.sprite(800,530,'startstop').setOrigin(0,0).play('start');
+
+        this.startStopButton.setInteractive();
+
+        this.startStopButton.on('pointerdown', () => {
+            if(this.stopped) {
+                this.startStopButton.play('stop');
+                //Start the reels
+                this.startReels(200);
+                this.stopped = false;
+            } else {
+                this.stopReels();
+                //this.stopped = true;
+            }
+            
+        });
+    }
+
     createPointer() {
         this.add.image(75,this.screenCenter[1],'pointer');
         this.add.image(75,this.stopPosition,'pointer');
+    }
+
+    startReels(velocity) {
+        this.reel1.setVelocityY(velocity);
+        this.reel2.setVelocityY(velocity);
+        this.reel3.setVelocityY(velocity);
+    }
+
+    stopReels() {
+        this.stopFruits['reel1'] = this.getRandomFruit();
+        this.stopFruits['reel2'] = this.getRandomFruit();
+        this.stopFruits['reel3'] = this.getRandomFruit();
+        console.log('Stopping at ',this.stopFruits);
+    }
+
+    resetReels() {
+        // this.stopFruits = {
+        //     'reel1' : '',
+        //     'reel2' : '',
+        //     'reel3' : '',
+        // },
+        //this.stopped = true;
     }
 
 
@@ -177,21 +228,13 @@ class PlayScene extends BaseScene {
 
     handleInputs() {
         //Input actions
-        // this.input.on('pointerdown',this.flap, this);
         this.input.keyboard.on('keydown_SPACE',() => {
-            //let stopAt = this.getRandomFruit();
-            this.stopFruits['reel1'] = this.getRandomFruit();
-            this.stopFruits['reel2'] = this.getRandomFruit();
-            this.stopFruits['reel3'] = this.getRandomFruit();
-            console.log('Stopping at ',this.stopFruits);
+            this.stopReels();
         });
     }
 
     update() {
-        // this.checkGameStatus();
-        // this.recyclePipes();
         this.recycleReels();
-        //this.getFruitPos();
         this.stopAt(this.reel1,'reel1');
         this.stopAt(this.reel2,'reel2');
         this.stopAt(this.reel3,'reel3');
@@ -204,19 +247,13 @@ class PlayScene extends BaseScene {
     }
 
     recycleReel(reelA,reelB) {
-        //console.log(this.reel.children.entries[0]);
-        // let reelA = this.reel.children.entries[0];
-        // let reelB = this.reel.children.entries[1];
+        //Make the fruits roll continuously
         if(reelA.getBounds().y > this.config.height) {
             reelA.y = reelB.getBounds().y - 1120;
         }
         if(reelB.getBounds().y > this.config.height) {
             reelB.y = reelA.getBounds().y -1120;
         }
-        // this.reel.children.entries.forEach((reel) => {
-        //     console.log(reel.getBounds());
-        // });
-        //console.log(this.reel.getBounds().top > this.config.height);
     }
 
     getCurrentFruit() {
@@ -226,10 +263,15 @@ class PlayScene extends BaseScene {
         // });
     }
 
+    checkAllStoppedAndResetStoppedStatus() {
+        if(this.stopFruits.reel1 == '' && this.stopFruits.reel2 == '' && this.stopFruits.reel3 == '') {
+            console.log('ALL HAVE STOPPED');
+            this.startStopButton.play('start');
+            this.stopped = true;
+        }
+    }
+
     stopAt(reelGroup, reelNumber) {
-        //let reelA = this.reel.children.entries[0];
-        //console.log(Math.floor(this.screenCenter[0] - reelA.y + 70) > 0 && (Math.floor(this.screenCenter[0] - reelA.y - 70)) < 140);
-        //console.log(Math.floor((this.screenCenter[0] - reelA.y + 70) / 140));
         reelGroup.children.entries.forEach(reel => {
             let fruitPos = this.stopPosition - reel.y + this.stopOffset;
             let fruitIndex = Math.floor((fruitPos) / 140);
@@ -238,6 +280,11 @@ class PlayScene extends BaseScene {
             //console.log('lemon', this.screenCenter[0] - reel.y + 35, ((fruitIndex * 140) + 120) > fruitPos);
             if(this.getFruit(fruitIndex) === this.stopFruits[reelNumber] && !onNamedFruit) {
                 reelGroup.setVelocityY(0);
+                //Reset the reel
+                this.stopFruits[reelNumber] = '';
+                //If on final reel reset the stopped status
+                this.checkAllStoppedAndResetStoppedStatus();
+                
             }
         });
 
