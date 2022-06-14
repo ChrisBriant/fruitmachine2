@@ -94,6 +94,8 @@ class PlayScene extends BaseScene {
 			fontFamily: '"VT323"',
 			fontSize: '30px'
 		});
+        //Fetch the credit data
+        this.getCreditData();
         this.creditText = this.add.text(785, 68, '£00.00', {
 			fontFamily: '"VT323"',
 			fontSize: '60px'

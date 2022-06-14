@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import {getCredit} from '../network/network';
 
 
 class BaseScene extends Phaser.Scene {
@@ -49,6 +50,8 @@ class BaseScene extends Phaser.Scene {
                 pos: 8,
             }
         ];
+        //Credit control
+        this.credit = 0;
     }
 
     getFruit(pos) {
@@ -62,6 +65,10 @@ class BaseScene extends Phaser.Scene {
 
     getRandomFruit() {
         return this.fruitPositions[Math.floor(Math.random()*this.fruitPositions.length)].name;
+    }
+
+    getCreditData() {
+        getCredit();
     }
 
 }
