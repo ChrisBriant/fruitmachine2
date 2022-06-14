@@ -19,10 +19,13 @@ class PreloadScene extends Phaser.Scene {
             frameHeight: 81,
         });
         this.load.addFile(new WebFontFile(this.load, 'VT323'));
+        //https://phaser.io/examples/v3/view/game-objects/dom-element/form-input
+        this.load.html('signinform', '../assets/signin.html');
     }
 
     create() {
-        this.scene.start('PlayScene');
+        //this.scene.start('PlayScene');
+        this.scene.start('SigninScene');
     }
 
 

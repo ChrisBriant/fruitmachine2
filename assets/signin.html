@@ -1,0 +1,21 @@
+<form id="signInForm" class="userForm" onSubmit={handleSignIn} >
+    <h1 class="centerText">Sign In</h1>
+    <div class="formGroup">
+        <label htmlFor="email">Email:</label>
+        <input id="email" class={emailErrorClass} type="email" onChange={handleChangeEmail} />
+    </div>
+    <div class="formGroup">
+        <label htmlFor="password">Password:</label>
+        <input id="password" class={passwordErrorClass} type="password" onChange={handleChangePass} />
+    </div>
+    <button type="submit" class="btn btn-primary">Sign In</button>
+    <div class="formErrors">
+        <ul>
+            {
+                formErrors.map(e => (
+                    <li key={e}>{e}</li>
+                ))
+            }
+        </ul>
+    </div>
+</form>
